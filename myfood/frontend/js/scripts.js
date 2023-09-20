@@ -238,9 +238,8 @@
           foods: selectedFoods,
         };
 
-
         // Send the data to the backend using the Fetch API
-        fetch("http://localhost:3000/api/data", {
+        fetch("/api/data", {
           method: "POST", // You can use POST or another HTTP method depending on your backend
           headers: {
             "Content-Type": "application/json",
