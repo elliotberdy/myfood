@@ -517,6 +517,10 @@
       const selectedFoodsContainerChart = document.getElementById("selectedFoodsContainerChart");
 
       let selectedFoodButton;
+      selectedFoodButton = document.createElement("button");
+      selectedFoodButton.textContent = foodName;
+      selectedFoodButton.classList.add("btn", "btn-secondary", "btn-lg", "mx-auto", "mt-2");
+      selectedFoodsContainerChart.appendChild(selectedFoodButton);
 
       foodDropdownChart.addEventListener("click", (event) => {
         if (event.target.classList.contains("dropdown-item")) {
