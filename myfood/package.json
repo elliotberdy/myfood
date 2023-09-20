@@ -1,5 +1,17 @@
 {
+  "name": "myfood",
+  "version": "1.0.0",
+  "description": "My Node.js web application",
+  "main": "backend/server.js", 
+  "scripts": {
+    "start": "cd backend && node server.js", 
+    "dev": "cd backend && nodemon server.js" 
+  },
   "dependencies": {
-    "express": "^4.18.2"
+    "express": "^4.17.1", 
+    "sqlite3": "^5.0.2" 
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15" 
   }
 }
