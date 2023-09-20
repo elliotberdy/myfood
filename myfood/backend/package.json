@@ -13,6 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "inherits": "^2.0.4",
     "mysql": "^2.18.1",
     "sqlite3": "^5.0.2"
   }

@@ -168,7 +168,7 @@
           // Create a button element for the selected food
           const selectedFoodButton = document.createElement("button");
           selectedFoodButton.textContent = event.target.textContent;
-          selectedFoodButton.classList.add("btn", "btn-secondary", "mx-1", "mt-2"); // Add Bootstrap button classes
+          selectedFoodButton.classList.add("btn", "btn-secondary","mx-1", "mt-2"); // Add Bootstrap button classes
 
           // Add a click event listener to remove the selected food
           selectedFoodButton.addEventListener("click", () => {
@@ -512,7 +512,7 @@
         }
       });
 
-      // SHOW FOOD OPTIONS ABOVE DROPDOWN
+      // SHOW FOOD OPTION BELOW DROPDOWN
       // Get references to elements
       const selectedFoodsContainerChart = document.getElementById("selectedFoodsContainerChart");
 

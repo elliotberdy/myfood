@@ -501,6 +501,10 @@ mark,
   color: #6c757d;
 }
 
+.selectedFoodsContainer {
+  text-align: center;
+}
+
 code {
   font-size: 87.5%;
   color: #e83e8c;
