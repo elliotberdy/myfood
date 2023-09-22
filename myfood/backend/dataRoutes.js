@@ -35,17 +35,14 @@ router.post('/api/data', (req, res) => {
 
 module.exports = router;
 
-// Add this route to dataRoutes.js or a separate file if needed
 router.get('/api/data', (req, res) => {
 
 
-  // Query the database to retrieve all rows from your table
   db.all('SELECT * FROM mytable', [], (err, rows) => {
     if (err) {
       console.error('Error querying data:', err.message);
       res.status(500).json({ error: 'Internal Server Error' });
     } else {
-      // Send the retrieved data as a JSON response
       res.json(rows);
     }
   });
@@ -57,13 +54,11 @@ router.get('/api/data', (req, res) => {
 router.get('/api/mood-counts/:food', (req, res) => {
   const food = req.params.food;
 
-  // Query the database to retrieve mood counts for the specified food
   db.all('SELECT mood, COUNT(*) AS count FROM mytable WHERE food = ? GROUP BY mood', [food], (err, rows) => {
     if (err) {
       console.error('Error querying data:', err.message);
       res.status(500).json({ error: 'Internal Server Error' });
     } else {
-      // Send the retrieved data as a JSON response
       res.json(rows);
     }
   });
@@ -74,7 +69,6 @@ router.get('/api/mood-counts/:food', (req, res) => {
 router.get('/api/top-foods-by-mood/:mood', (req, res) => {
   const mood = req.params.mood;
 
-  // Query the database to retrieve the top 10 foods with the highest counts for the specified mood
   const sql = `
     SELECT food, COUNT(*) AS moodCount
     FROM mytable
@@ -89,7 +83,6 @@ router.get('/api/top-foods-by-mood/:mood', (req, res) => {
       console.error('Error querying data:', err.message);
       res.status(500).json({ error: 'Internal Server Error' });
     } else {
-      // Send the retrieved data as a JSON response
       res.json(rows);
     }
   });

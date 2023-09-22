@@ -1,6 +1,6 @@
 const sqlite3 = require('sqlite3').verbose();
 
-// Open the database (you can replace 'mydatabase.db' with your actual database file)
+// Open the database 
 const db = new sqlite3.Database('mydatabase.db');
 
 // Function to insert data for a specific food and mood
@@ -10,12 +10,11 @@ function insertData(food, mood) {
   stmt.finalize();
 }
 
-// Function to generate a random quantity between min and max (inclusive)
 function getRandomQuantity(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-// Function to insert arbitrary number of data entries with random quantities
+// Function to insert arbitrary number of data entries random number of times
 function insertRandomData(entries) {
   for (const entry of entries) {
     const { food, mood, minQuantity, maxQuantity } = entry;
@@ -26,7 +25,7 @@ function insertRandomData(entries) {
   }
 }
 
-// Example data to insert (you can replace this with your own data)
+// Data to insert
 const dataToInsert = [
   { food: 'Pizza', mood: 'Bloated', minQuantity: 10, maxQuantity: 50 },
   { food: 'Pizza', mood: 'Tired', minQuantity: 10, maxQuantity: 50 },
@@ -48,8 +47,6 @@ const dataToInsert = [
   
 ];
 
-// Call the function to insert random data
 insertRandomData(dataToInsert);
 
-// Close the database connection when done
 db.close();

@@ -3,6 +3,11 @@
     * Copyright 2013-2020 Start Bootstrap
     * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-freelancer/blob/master/LICENSE)
     */
+
+// Used this as a starting template ^^
+
+//NEED TO UPDATE CHART 2 WHEN SUBMIT BUTTON IS PUSHED!!!!!
+
     (function($) {
     "use strict"; // Start of use strict
   
@@ -65,13 +70,20 @@
       });
     });
 
-    //search dropdown
     document.addEventListener("DOMContentLoaded", function () {
+      //food input elements
       const foodInput = document.getElementById("foodInput");
       const foodDropdown = document.getElementById("foodDropdown");
       const foodForm = document.getElementById("foodForm");
+
+      //mood button value
+      let selectedMood = null;
+      
+      //initial chart values
       var foodName = 'Salmon'; 
       var moodName = 'Tired';
+      
+      // chart.js instances
       let myChart = null;
       let myChart2 = null;
 
@@ -81,9 +93,7 @@
           const appId = 'fbe896e7';
           const apiUrl = `https://api.edamam.com/api/food-database/v2/parser?ingr=${query}&app_id=${appId}&app_key=${apiKey}`;
 
-          // Get the computed width of the input search bar
           const inputWidth = window.getComputedStyle(foodInput).width;
-
           // Apply the same width to the dropdown container
           foodDropdown.style.width = inputWidth;
 
@@ -93,7 +103,6 @@
                   // Clear previous food options
                   foodDropdown.innerHTML = '';
 
-                  // Create a set to store unique labels and an array for sorted labels
                   const uniqueLabels = new Set();
                   const sortedLabels = [];
 
@@ -101,7 +110,7 @@
                   data.hints.forEach((hint) => {
                     const label = hint.food.label.replace(/,/g, '');
 
-                    // Check if the label is not already in the set (i.e., it's unique)
+                    // Check if the label is not already in the set 
                     if (!uniqueLabels.has(label)) {
                       uniqueLabels.add(label);
                       sortedLabels.push(label);
@@ -117,7 +126,6 @@
                     const link = document.createElement("a");
                     link.classList.add("dropdown-item");
                     link.textContent = label;
-                    //link.href = "#"; // You can add an action when a food option is clicked
                     li.appendChild(link);
                     foodDropdown.appendChild(li);
                   });
@@ -131,7 +139,8 @@
               });
       }
 
-      // Event listener to trigger fetching food options as the user types
+      //FOOD DROPDOWN IN INPUT SECTION
+      // Event listener to trigger fetching food options as user types
       foodInput.addEventListener("input", function () {
           const query = foodInput.value.trim();
 
@@ -160,8 +169,7 @@
         }
       });
 
-      // SHOW FOOD OPTIONS ABOVE DROPDOWN
-      // Get references to elements
+      // SHOW FOOD OPTIONS THAT WERE CLICKED ABOVE DROPDOWN
       const selectedFoodsContainer = document.getElementById("selectedFoodsContainer");
 
       // Event listener for clicks on food options
@@ -170,9 +178,9 @@
           // Create a button element for the selected food
           const selectedFoodButton = document.createElement("button");
           selectedFoodButton.textContent = event.target.textContent;
-          selectedFoodButton.classList.add("btn", "btn-secondary","mx-1", "mt-2"); // Add Bootstrap button classes
+          selectedFoodButton.classList.add("btn", "btn-secondary","mx-1", "mt-2"); 
 
-          // Add a click event listener to remove the selected food
+          // Add a click event listener to remove button
           selectedFoodButton.addEventListener("click", () => {
             selectedFoodsContainer.removeChild(selectedFoodButton);
           });
@@ -186,7 +194,7 @@
         }
       });
 
-      // BUTTON ACTIVE STATE
+      // ENSURE ONE AND ONLY ONE BUTTON IS ACTIVE IF CLICKED ON
       const buttons = document.querySelectorAll('.btn-primary');
 
       buttons.forEach((button) => {
@@ -203,10 +211,7 @@
           });
       });
 
-      // SUBMIT 
-      // Initialize the selected mood as null
-      let selectedMood = null;
-
+      // SUBMIT BUTTON FOR INPUT SECTION
       // Event listener for mood buttons
       const moodButtons = document.querySelectorAll(".mood-button");
       moodButtons.forEach((button) => {
@@ -229,7 +234,7 @@
         const selectedMood = document.querySelector(".mood-button.active").getAttribute("data-mood");
 
         // Get the text content of each selected food button and add it to the selectedFoods array
-        selectedFoods.length = 0; // Clear the array
+        selectedFoods.length = 0; 
         selectedFoodsContainer.querySelectorAll(".btn-secondary").forEach(function (foodButton) {
           selectedFoods.push(foodButton.textContent);
         });
@@ -240,9 +245,10 @@
           foods: selectedFoods,
         };
 
-        // Send the data to the backend using the Fetch API
+        // INSERT DATA TO DATABASE IN BACKEND
+        // Send the data to the backend to put into database
         fetch("/api/data", {
-          method: "POST", // You can use POST or another HTTP method depending on your backend
+          method: "POST", 
           headers: {
             "Content-Type": "application/json",
           },
@@ -255,19 +261,15 @@
             return response.json();
           })
           .then((responseData) => {
-            // Handle the response from the backend, e.g., show a success message
             console.log("Data sent successfully:", responseData);
             resetForm();
           })
           .catch((error) => {
-            // Handle errors, e.g., show an error message
             console.error("Error sending data to the backend:", error);
           });
-          
-          // alert("Data to be sent to the backend:\n\n" + JSON.stringify(data, null, 2));
-          
       });
 
+      // RESET INPUT SECTION AFTER SUBMIT BUTTON IS PRESSED
       function resetForm() {
         // Clear the selected foods
         const selectedFoodsContainer = document.getElementById("selectedFoodsContainer");
@@ -284,6 +286,7 @@
         });
       }
 
+      // MYDATA TABLE
       const dataTable = document.getElementById('data-table');
 
       // Fetch initial data from the server and populate the table
@@ -296,10 +299,9 @@
           console.error('Error fetching initial data:', error);
         });
 
-      // Function to populate the table with data
       function populateDataTable(data) {
         const tbody = dataTable.querySelector('tbody');
-        tbody.innerHTML = ''; // Clear existing rows
+        tbody.innerHTML = ''; 
 
         data.reverse().forEach((item) => {
           const row = document.createElement('tr');
@@ -311,13 +313,12 @@
         });
       }
 
-      
+      // CHART 2 FUNCTION
       // Function to fetch and update data for the top foods by mood as a bar chart
       function updateTopFoodsByMoodBarChart(mood) {
         fetch(`/api/top-foods-by-mood/${mood}`)
           .then((response) => response.json())
           .then((data) => {
-            // Handle the data received from the backend (top foods by mood)
             console.log('Top foods by', mood, data);
             const foods = data.map((entry) => entry.food);
             const moodCounts = data.map((entry) => entry.moodCount);
@@ -330,12 +331,11 @@
               '#FF9900',
             ];
 
-            // Sample data (replace with your actual data)
             const dataset = {
               labels: foods,
               datasets: [
                 {
-                  data: moodCounts, // Replace with the actual mood counts
+                  data: moodCounts, 
                   backgroundColor: foodColors,
                 },
               ],
@@ -343,20 +343,17 @@
 
             const cacheBuster = Date.now();
 
-            // Chart.js configuration for a bar chart
             const config = {
-              type: 'doughnut', // Set the chart type to 'bar' for a bar chart
+              type: 'doughnut', 
               data: dataset,
             };
             
-            // Get the canvas element
             const ctx = document.getElementById('chart-2').getContext('2d');
 
             if (myChart2) {
               myChart2.destroy();
             }
 
-            // Create the chart
             myChart2 = new Chart(ctx, { ...config, ...{ options: { cache: cacheBuster } } });
           })
           .catch((error) => {
@@ -364,19 +361,19 @@
           });
       }
 
+      // CHART 1 - MOOD COUNT FOR GIVEN FOOD
       fetch(`/api/mood-counts/${foodName}`)
           .then((response) => response.json())
           .then((data) => {
-            // Handle the data received from the backend (mood counts for the specified food)
             console.log('Mood counts for', foodName, data);
             const moods = data.map((entry) => entry.mood);
             const counts = data.map((entry) => entry.count);
-            // Sample data (replace with your actual data)
+
             const dataset = {
               labels: moods,
               datasets: [
                 {
-                  data: counts, // Replace with the actual mood counts
+                  data: counts, 
                   backgroundColor: [
                     '#FF6384',
                     '#36A2EB',
@@ -391,34 +388,75 @@
 
             const cacheBuster = Date.now();
             
-            // Chart.js configuration
             const config = {
               type: 'doughnut',
               data: dataset,
             };
             
-            // Get the canvas element
             const ctx = document.getElementById('chart').getContext('2d');
             
             if (myChart) {
               myChart.destroy();
             }
 
-            // Create the chart
             myChart = new Chart(ctx, { ...config, ...{ options: { cache: cacheBuster } } });
           })
           .catch((error) => {
             console.error('Error fetching mood counts:', error);
           });
+      
+      // CHART 2 FUNCTION
+      // Function to fetch and update data for the top foods by mood as a bar chart
+      function updateTopFoodsByMoodBarChart(mood) {
+        fetch(`/api/top-foods-by-mood/${mood}`)
+          .then((response) => response.json())
+          .then((data) => {
+            console.log('Top foods by', mood, data);
+            const foods = data.map((entry) => entry.food);
+            const moodCounts = data.map((entry) => entry.moodCount);
+            const foodColors = [
+              '#FF6384',
+              '#36A2EB',
+              '#FFCE56',
+              '#4BC0C0',
+              '#9966FF',
+              '#FF9900',
+            ];
 
-        updateTopFoodsByMoodBarChart('Tired');
+            const dataset = {
+              labels: foods,
+              datasets: [
+                {
+                  data: moodCounts, 
+                  backgroundColor: foodColors,
+                },
+              ],
+            };
 
+            const cacheBuster = Date.now();
 
-      // Example: Trigger data fetching and table update a few seconds after submitting food data
+            const config = {
+              type: 'doughnut', 
+              data: dataset,
+            };
+            
+            const ctx = document.getElementById('chart-2').getContext('2d');
+
+            if (myChart2) {
+              myChart2.destroy();
+            }
+
+            myChart2 = new Chart(ctx, { ...config, ...{ options: { cache: cacheBuster } } });
+          })
+          .catch((error) => {
+            console.error('Error fetching top foods by mood:', error);
+          });
+      }
+      updateTopFoodsByMoodBarChart('Tired');
+
+      // UPDATE CHARTS AND TABLE AFTER SUBMIT BUTTON IS PUSHED
       submitButton.addEventListener('click', () => {
-        // Handle food data submission here (e.g., sending data to the server)
 
-        // After the submission, fetch and update the table with the latest data after a delay
         setTimeout(() => {
           fetch('/api/data')
             .then((response) => response.json())
@@ -434,16 +472,14 @@
           fetch(`/api/mood-counts/${foodName}`)
             .then((response) => response.json())
             .then((data) => {
-              // Handle the data received from the backend (mood counts for the specified food)
               console.log('Mood counts for', foodName, data);
               const moods = data.map((entry) => entry.mood);
               const counts = data.map((entry) => entry.count);
-              // Sample data (replace with your actual data)
               const dataset = {
                 labels: moods,
                 datasets: [
                   {
-                    data: counts, // Replace with the actual mood counts
+                    data: counts, 
                     backgroundColor: [
                       '#FF6384',
                       '#36A2EB',
@@ -457,28 +493,30 @@
               };
               const cacheBuster = Date.now();
 
-              // Chart.js configuration
               const config = {
                 type: 'doughnut',
                 data: dataset,
               };
               
-              // Get the canvas element
               const ctx = document.getElementById('chart').getContext('2d');
               
               if (myChart) {
                 myChart.destroy();
               }
 
-              // Create the chart
               myChart = new Chart(ctx, { ...config, ...{ options: { cache: cacheBuster } } });
             })
             .catch((error) => {
               console.error('Error fetching mood counts:', error);
             });
           }, 500); 
+
+          setTimeout(() => {
+            updateTopFoodsByMoodBarChart(moodName);
+          }, 500); 
       });
 
+      // FOOD DROPDOWN FOR CHART 1
       const foodInputChart = document.getElementById("foodInputChart");
       const foodDropdownChart = document.getElementById("foodDropdownChart");
 
@@ -488,43 +526,34 @@
         const appId = 'fbe896e7';
         const apiUrl = `https://api.edamam.com/api/food-database/v2/parser?ingr=${query}&app_id=${appId}&app_key=${apiKey}`;
 
-        // Get the computed width of the input search bar
         const inputWidth = window.getComputedStyle(foodInputChart).width;
-
         // Apply the same width to the dropdown container
         foodDropdownChart.style.width = inputWidth;
 
         fetch(apiUrl)
             .then((response) => response.json())
             .then((data) => {
-                // Clear previous food options
                 foodDropdownChart.innerHTML = '';
 
-                // Create a set to store unique labels and an array for sorted labels
                 const uniqueLabels = new Set();
                 const sortedLabels = [];
 
-                // Iterate through the data.hints array and add unique food options to the set
                 data.hints.forEach((hint) => {
                   const label = hint.food.label.replace(/,/g, '');
 
-                  // Check if the label is not already in the set (i.e., it's unique)
                   if (!uniqueLabels.has(label)) {
                     uniqueLabels.add(label);
                     sortedLabels.push(label);
                   }
                 });
 
-                // Sort the sortedLabels array alphabetically
                 sortedLabels.sort();
 
-                // Populate the dropdown with sorted unique food options
                 sortedLabels.forEach((label) => {
                   const li = document.createElement("li");
                   const link = document.createElement("a");
                   link.classList.add("dropdown-item");
                   link.textContent = label;
-                  //link.href = "#"; // You can add an action when a food option is clicked
                   li.appendChild(link);
                   foodDropdownChart.appendChild(li);
                 });
@@ -545,7 +574,6 @@
         if (query.length >= 1) {
             fetchAndFilterFoodOptionsChart(query);
         } else {
-            // Hide the dropdown if the input is too short
             foodDropdownChart.style.display = 'none';
         }
       });
@@ -557,35 +585,28 @@
 
       let isDropdownOpenChart = false;
       document.body.addEventListener("click", (event) => {
-        // Check if the click target is the dropdown or a child of the dropdown
         const isClickInsideDropdown = foodDropdownChart.contains(event.target);
       
-        // If the dropdown is open and the click is outside of it, close the dropdown
         if (isDropdownOpenChart && !isClickInsideDropdown) {
           foodDropdownChart.style.display = "none";
           isDropdownOpenChart = false;
         }
       });
 
-
-      /////////
       const moodInputChart = document.getElementById("moodInputChart");
       const moodDropdownChart = document.getElementById("moodDropdownChart");
-      let isDropdownOpenMood = false; // Track whether the dropdown is open
+      let isDropdownOpenMood = false; 
 
-      // Function to populate the dropdown with mood options
+      // DROPDOWN FOR MOOD CHART 2
       function populateMoodDropdown() {
-        // Get the computed width of the input search bar
         const inputWidth = window.getComputedStyle(moodInputChart).width;
-
-        // Apply the same width to the dropdown container
         moodDropdownChart.style.width = inputWidth;
 
         // Define the mood options
         const moods = ["Tired", "Bloated", "Pain", "Normal", "Energized", "Amazing"];
 
-        // Clear existing dropdown items
         moodDropdownChart.innerHTML = "";
+
         // Populate the dropdown with mood options
         moods.forEach((mood) => {
           const li = document.createElement("li");
@@ -618,12 +639,7 @@
         }
       });
 
-
-      ///////////
-
-
       // SHOW FOOD OPTION BELOW DROPDOWN
-      // Get references to elements
       const selectedFoodsContainerChart = document.getElementById("selectedFoodsContainerChart");
 
       let selectedFoodButton;
@@ -648,7 +664,7 @@
             // Add a click event listener to remove the selected food
             selectedFoodButton.addEventListener("click", () => {
               selectedFoodsContainerChart.removeChild(selectedFoodButton);
-              selectedFoodButton = null; // Reset to allow selecting a new food
+              selectedFoodButton = null; 
             });
 
             // Append the selected food button to the selectedFoodsContainer
@@ -657,23 +673,23 @@
 
           foodDropdownChart.style.display = "none";
           isDropdownOpenChart = false;
+          
           // Clear the input field after selecting a food
           foodInputChart.value = "";
           foodName = selectedFood;
+
           setTimeout(() => {
             fetch(`/api/mood-counts/${foodName}`)
               .then((response) => response.json())
               .then((data) => {
-                // Handle the data received from the backend (mood counts for the specified food)
                 console.log('Mood counts for', foodName, data);
                 const moods = data.map((entry) => entry.mood);
                 const counts = data.map((entry) => entry.count);
-                // Sample data (replace with your actual data)
                 const dataset = {
                   labels: moods,
                   datasets: [
                     {
-                      data: counts, // Replace with the actual mood counts
+                      data: counts, 
                       backgroundColor: [
                         '#FF6384',
                         '#36A2EB',
@@ -687,20 +703,17 @@
                 };
                 const cacheBuster = Date.now();
                 
-                // Chart.js configuration
                 const config = {
                   type: 'doughnut',
                   data: dataset,
                 };
                 
-                // Get the canvas element
                 const ctx = document.getElementById('chart').getContext('2d');
                 
                 if (myChart) {
                   myChart.destroy();
                 }
 
-                // Create the chart
                 myChart = new Chart(ctx, { ...config, ...{ options: { cache: cacheBuster } } });
               })
               .catch((error) => {
@@ -751,13 +764,6 @@
             }, 500); 
         }
       });
-
-
-
-
-
-
     });
-  
   })(jQuery); // End of use strict
   

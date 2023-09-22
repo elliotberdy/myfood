@@ -2,9 +2,9 @@ const sqlite3 = require('sqlite3').verbose();
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
-const path = require('path'); // Node.js path module
+const path = require('path'); 
 
-// Middleware to parse JSON requests
+// to parse JSON requests
 app.use(bodyParser.json());
 
 // Open the SQLite database
@@ -27,16 +27,13 @@ const db = new sqlite3.Database('mydatabase.db', (err) => {
     `);
   });
 
-// Define the path to your frontend folder
 const frontendPath = path.join(__dirname, '../frontend');
 
 // Serve static files from the frontend folder
 app.use(express.static(frontendPath));
 
-// Import the route module (if needed)
-const dataRoutes = require("./dataRoutes"); // Adjust the path as needed
-
-// Use the route by mounting it on a specific path
+// routes to deal with data
+const dataRoutes = require("./dataRoutes"); 
 app.use("/", dataRoutes);
 
 // Start the server
@@ -44,6 +41,8 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
+
 
 // Handle the process exit event to close the database connection
 process.on('exit', () => {
