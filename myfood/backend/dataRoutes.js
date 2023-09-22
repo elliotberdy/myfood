@@ -70,6 +70,31 @@ router.get('/api/mood-counts/:food', (req, res) => {
 });
 
 
+// Define a route to get the top 5 foods by a specific mood
+router.get('/api/top-foods-by-mood/:mood', (req, res) => {
+  const mood = req.params.mood;
+
+  // Query the database to retrieve the top 10 foods with the highest counts for the specified mood
+  const sql = `
+    SELECT food, COUNT(*) AS moodCount
+    FROM mytable
+    WHERE mood = ?
+    GROUP BY food
+    ORDER BY moodCount DESC
+    LIMIT 5;
+  `;
+
+  db.all(sql, [mood], (err, rows) => {
+    if (err) {
+      console.error('Error querying data:', err.message);
+      res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      // Send the retrieved data as a JSON response
+      res.json(rows);
+    }
+  });
+});
+
 
 // Handle the process exit event to close the database connection
 process.on('exit', () => {

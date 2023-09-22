@@ -71,7 +71,9 @@
       const foodDropdown = document.getElementById("foodDropdown");
       const foodForm = document.getElementById("foodForm");
       var foodName = 'Salmon'; 
+      var moodName = 'Tired';
       let myChart = null;
+      let myChart2 = null;
 
       // Function to fetch and filter food options from the Edamam API
       function fetchAndFilterFoodOptions(query) {
@@ -310,7 +312,58 @@
       }
 
       
-      
+      // Function to fetch and update data for the top foods by mood as a bar chart
+      function updateTopFoodsByMoodBarChart(mood) {
+        fetch(`/api/top-foods-by-mood/${mood}`)
+          .then((response) => response.json())
+          .then((data) => {
+            // Handle the data received from the backend (top foods by mood)
+            console.log('Top foods by', mood, data);
+            const foods = data.map((entry) => entry.food);
+            const moodCounts = data.map((entry) => entry.moodCount);
+            const foodColors = [
+              '#FF6384',
+              '#36A2EB',
+              '#FFCE56',
+              '#4BC0C0',
+              '#9966FF',
+              '#FF9900',
+            ];
+
+            // Sample data (replace with your actual data)
+            const dataset = {
+              labels: foods,
+              datasets: [
+                {
+                  data: moodCounts, // Replace with the actual mood counts
+                  backgroundColor: foodColors,
+                },
+              ],
+            };
+
+            const cacheBuster = Date.now();
+
+            // Chart.js configuration for a bar chart
+            const config = {
+              type: 'doughnut', // Set the chart type to 'bar' for a bar chart
+              data: dataset,
+            };
+            
+            // Get the canvas element
+            const ctx = document.getElementById('chart-2').getContext('2d');
+
+            if (myChart2) {
+              myChart2.destroy();
+            }
+
+            // Create the chart
+            myChart2 = new Chart(ctx, { ...config, ...{ options: { cache: cacheBuster } } });
+          })
+          .catch((error) => {
+            console.error('Error fetching top foods by mood:', error);
+          });
+      }
+
       fetch(`/api/mood-counts/${foodName}`)
           .then((response) => response.json())
           .then((data) => {
@@ -357,6 +410,8 @@
           .catch((error) => {
             console.error('Error fetching mood counts:', error);
           });
+
+        updateTopFoodsByMoodBarChart('Tired');
 
 
       // Example: Trigger data fetching and table update a few seconds after submitting food data
@@ -512,6 +567,61 @@
         }
       });
 
+
+      /////////
+      const moodInputChart = document.getElementById("moodInputChart");
+      const moodDropdownChart = document.getElementById("moodDropdownChart");
+      let isDropdownOpenMood = false; // Track whether the dropdown is open
+
+      // Function to populate the dropdown with mood options
+      function populateMoodDropdown() {
+        // Get the computed width of the input search bar
+        const inputWidth = window.getComputedStyle(moodInputChart).width;
+
+        // Apply the same width to the dropdown container
+        moodDropdownChart.style.width = inputWidth;
+
+        // Define the mood options
+        const moods = ["Tired", "Bloated", "Pain", "Normal", "Energized", "Amazing"];
+
+        // Clear existing dropdown items
+        moodDropdownChart.innerHTML = "";
+        // Populate the dropdown with mood options
+        moods.forEach((mood) => {
+          const li = document.createElement("li");
+          const link = document.createElement("a");
+          link.classList.add("dropdown-item");
+          link.textContent = mood;
+          li.appendChild(link);
+          moodDropdownChart.appendChild(li);
+        });
+
+        // Show the dropdown
+        moodDropdownChart.style.display = "block";
+        isDropdownOpenMood = true;
+      }
+
+      // Event listener to trigger displaying the dropdown when the input is clicked
+      moodInputChart.addEventListener("click", function () {
+        populateMoodDropdown();
+      });
+
+      // Event listener to close the dropdown when clicking outside of it
+      document.body.addEventListener("click", (event) => {
+        // Check if the click target is the form, the dropdown, or their children
+        const isClickInsideForm = moodInputChart.contains(event.target);
+        const isClickInsideDropdown = moodDropdownChart.contains(event.target);
+
+        if (!isClickInsideForm && !isClickInsideDropdown && isDropdownOpenMood) {
+          moodDropdownChart.style.display = "none";
+          isDropdownOpenMood = false;
+        }
+      });
+
+
+      ///////////
+
+
       // SHOW FOOD OPTION BELOW DROPDOWN
       // Get references to elements
       const selectedFoodsContainerChart = document.getElementById("selectedFoodsContainerChart");
@@ -596,6 +706,48 @@
               .catch((error) => {
                 console.error('Error fetching mood counts:', error);
               });
+            }, 500); 
+        }
+      });
+
+
+      const selectedMoodsContainerChart = document.getElementById("selectedMoodsContainerChart");
+      let selectedMoodButton;
+      selectedMoodButton = document.createElement("button");
+      selectedMoodButton.textContent = moodName;
+      selectedMoodButton.classList.add("btn", "btn-secondary", "btn-lg", "mx-auto", "mt-2");
+      selectedMoodsContainerChart.appendChild(selectedMoodButton);
+
+      moodDropdownChart.addEventListener("click", (event) => {
+        if (event.target.classList.contains("dropdown-item")) {
+          const selectedMood = event.target.textContent;
+
+          if (selectedMoodButton) {
+            // If a button already exists, update its text content
+            selectedMoodButton.textContent = selectedMood;
+          } else {
+            // If no button exists, create a new one
+            selectedMoodButton = document.createElement("button");
+            selectedMoodButton.textContent = selectedMood;
+            selectedMoodButton.classList.add("btn", "btn-secondary", "btn-lg", "mx-auto", "mt-2");
+
+            // Add a click event listener to remove the selected food
+            selectedMoodButton.addEventListener("click", () => {
+              selectedMoodsContainerChart.removeChild(selectedMoodButton);
+              selectedMoodButton = null; // Reset to allow selecting a new food
+            });
+
+            // Append the selected food button to the selectedFoodsContainer
+            selectedMoodsContainerChart.appendChild(selectedMoodButton);
+          }
+
+          moodDropdownChart.style.display = "none";
+          isDropdownOpenMood = false;
+          // Clear the input field after selecting a food
+          moodInputChart.value = "";
+          moodName = selectedMood;
+          setTimeout(() => {
+            updateTopFoodsByMoodBarChart(moodName);
             }, 500); 
         }
       });
