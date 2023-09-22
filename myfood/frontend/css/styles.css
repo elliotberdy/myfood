@@ -1692,6 +1692,7 @@ pre code {
 .table thead th {
   vertical-align: bottom;
   border-bottom: 0.25rem solid #dee2e6;
+  position: sticky;
 }
 .table tbody + tbody {
   border-top: 0.25rem solid #dee2e6;
@@ -1739,6 +1740,12 @@ pre code {
 .table-primary > th,
 .table-primary > td {
   background-color: #e3eef3;
+}
+
+.table-primary thead {
+  position: sticky;
+  top: 0;  
+  z-index: 1;
 }
 
 .table-primary td,

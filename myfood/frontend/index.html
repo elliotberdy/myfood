@@ -79,12 +79,12 @@
                                 <!-- Button Group Column -->
                                 <div class="col-md-12 mx-auto form-group">
                                     <div class="text-center mt-1">
-                                        <button type="button" class="btn btn-primary mt-2 mood-button" data-mood="Tired">Tired</button>
-                                        <button type="button" class="btn btn-primary mt-2 mood-button" data-mood="Bloated">Bloated</button>
-                                        <button type="button" class="btn btn-primary mt-2 mood-button" data-mood="Pain">Pain</button>
-                                        <button type="button" class="btn btn-primary mt-2 mood-button" data-mood="Normal">Normal</button>
-                                        <button type="button" class="btn btn-primary mt-2 mood-button" data-mood="Energized">Energized</button>
-                                        <button type="button" class="btn btn-primary mt-2 mood-button" data-mood="Amazing">Amazing</button>
+                                        <button type="button" class="btn btn-primary mt-2 mood-button btn-tired" data-mood="Tired">Tired</button>
+                                        <button type="button" class="btn btn-primary mt-2 mood-button btn-bloated" data-mood="Bloated">Bloated</button>
+                                        <button type="button" class="btn btn-primary mt-2 mood-button btn-pain" data-mood="Pain">Pain</button>
+                                        <button type="button" class="btn btn-primary mt-2 mood-button btn-normal" data-mood="Normal">Normal</button>
+                                        <button type="button" class="btn btn-primary mt-2 mood-button btn-energized" data-mood="Energized">Energized</button>
+                                        <button type="button" class="btn btn-primary mt-2 mood-button btn-amazing" data-mood="Amazing">Amazing</button>
                                     </div>
                                 </div>
                             </div>
@@ -102,6 +102,12 @@
                 <!-- Analyze Section Heading-->
                 <div class="text-center">
                     <h2 class="page-section-heading d-inline-block text-white">ANALYZE</h2>
+                </div>
+
+                <div class="divider-custom divider-light">
+                    <div class="divider-custom-line"></div>
+                    <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                    <div class="divider-custom-line"></div>
                 </div>
 
                 <div class="row">
@@ -130,7 +136,7 @@
 
                 <div class="row">
                     <!-- Mood Form Column -->
-                    <div class="col-sm-9 mx-auto form-group">
+                    <div class="col-sm-9 mx-auto form-group mt-5">
 
                         <div class="text-center">
                             <h2 class="page-section-heading text-secondary mb-0 d-inline-block mt-5">Top 5 Foods For Selected Mood</h2>
@@ -160,13 +166,20 @@
                 <div class="text-center">
                     <h2 class="page-section-heading text-secondary d-inline-block mb-0">MY DATA</h2>
                 </div>
+
+                <div class="divider-custom">
+                    <div class="divider-custom-line"></div>
+                    <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                    <div class="divider-custom-line"></div>
+                </div>
+
                 <div id="tableContainer" style="max-height: 500px; overflow-y: auto;" class="mt-4">
                     <table id="data-table" class="table table-hover table-primary">
                         <thead>
                         <tr>
                             <!-- <th scope="col">ID</th> -->
-                            <th scope="col">Food</th>
-                            <th scope="col">Mood</th>
+                            <th scope="col" style="font-size: 20px;">Food</th>
+                            <th scope="col" style="font-size: 20px;">Mood</th>
                         </tr>
                         </thead>
                         <tbody>
