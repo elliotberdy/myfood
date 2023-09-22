@@ -492,7 +492,7 @@ mark,
 }
 
 .food-dropdown {
-  max-height: 200px; /* Set the maximum height you desire */
+  max-height: 230px; /* Set the maximum height you desire */
   overflow-y: auto; /* Enable vertical scrolling if the content exceeds the maximum height */
 }
 
