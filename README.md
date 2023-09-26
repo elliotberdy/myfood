@@ -42,4 +42,4 @@ Lastly, the database is currently being uploaded to the git repo and being acces
 
 ### Technologies Used
 
-MyFood is a fullstack web application that uses HTML, CSS, JavaScript, Bootstrap, Node.js, and SQLite. MyFood also uses the Edamam API to populate the dropdowns with a list of foods.
+MyFood is a fullstack web application that uses HTML, CSS, JavaScript, Bootstrap, Node.js, Express.js, Path, Body Parser, and SQLite. MyFood also uses the Edamam API to populate the dropdowns with a list of foods.
