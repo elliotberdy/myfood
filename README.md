@@ -1,7 +1,8 @@
-# myfood
-## Elliot Berdy
+# MyFood
 
-http://www.elliotberdy.com
+## Elliot Berdy 
+
+Project Website: http://www.elliotberdy.com 
 
 Thank you to https://startbootstrap.com/themes/freelancer for the starting template :)
 
@@ -15,19 +16,19 @@ There are three main sections of the website: Input, Analyze, My Data.
 
 1. Input
 
-In this section you can input what foods you have eaten and how you are feeling. Currently there are six options for how you are feeling. You can enter as many foods as you want per submission, but you can only choose one feeling per submission. If you would like to remove a food that you selected, just click on that food and it will be deleted. Once you have selected what you wish to input, click the submit button and the selected foods and mood will be inputted into the database. Currently there is only one communal database, so don't be surprised if you see previous inputs that are not yours!
+    In this section you can input what foods you have eaten and how you are feeling. Currently there are six options for how you are feeling. You can enter as many foods as you want per submission, but you can only choose one feeling per submission. If you would like to remove a food that you selected, just click on that food and it will be deleted. Once you have selected what you wish to input, click the submit button and the selected foods and mood will be inputted into the database. Currently there is only one communal database, so don't be surprised if you see previous inputs that are not yours!
 
 2. Analyze
 
-In this section you can visualize some trends in your food/mood data. The first chart allows you to select a given food and see the distribution of feelings you have had when eating that food. For example, if you select salmon, it will show you a doughnut chart displaying how many times you have felt amazing, average, tired, etc. after eating salmon.
+    In this section you can visualize some trends in your food/mood data. The first chart allows you to select a given food and see the distribution of feelings you have had when eating that food. For example, if you select salmon, it will show you a doughnut chart displaying how many times you have felt amazing, average, tired, etc. after eating salmon.
 
-The second chart allows you to select a specific mood (i.e. Tired) and see the five foods that have the most counts for that mood. This chart allows you to know which foods make you feel a certain way to either eliminate those foods or eat more of them!
+    The second chart allows you to select a specific mood (i.e. Tired) and see the five foods that have the most counts for that mood. This chart allows you to know which foods make you feel a certain way to either eliminate those foods or eat more of them!
 
-If either chart is empty, then there are currently no entries for that food or mood.
+    If either chart is empty, then there are currently no entries for that food or mood.
 
 3. My Data
 
-This section is a table that shows all of your previous food/mood inputs.
+    This section is a table that shows all of your previous food/mood inputs.
 
 ### Shortcomings and Next Steps
 
