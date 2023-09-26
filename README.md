@@ -36,7 +36,9 @@ As mentioned earlier, currently there is only one communal database. Therefore, 
 
 Another imnprovement I would like to make is to add more options for how the user is feeling. This is an easy improvement, although it then requires more data to see interesting trends. 
 
-Lastly, I would like to try and get more from the data. For example, I want to sort the foods into categories (i.e. fruits, vegetables, etc.) and apply some ML algorithms to look for trends in how certain food categories may make the user feel. I am also interested in looking for trends centered around what time of day the food was eaten. While these improvements are the most exciting to me, the login system is more central to the use of the application and will therefore be my first priority. 
+I would also like to try and get more from the data. For example, I want to sort the foods into categories (i.e. fruits, vegetables, etc.) and apply some ML algorithms to look for trends in how certain food categories may make the user feel. I am also interested in looking for trends centered around what time of day the food was eaten. While these improvements are the most exciting to me, the login system is more central to the use of the application and will therefore be my first priority. 
+
+Lastly, the database is currently being uploaded to the git repo and being accessed as part of the file system, but I will start hosting the database separately and access the database from the hosted location.
 
 ### Technologies Used
 
