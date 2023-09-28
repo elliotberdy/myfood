@@ -1689,15 +1689,16 @@ pre code {
 .table td {
   padding: 0.75rem;
   vertical-align: top;
-  border-top: 0.125rem solid #dee2e6;
+  top: 0;
+  /* border-top: 0.15rem solid #c8ffd3; */
 }
 .table thead th {
   vertical-align: bottom;
-  border-bottom: 0.25rem solid #dee2e6;
+  border-bottom: 0.15rem solid #c8ffd3;
   position: sticky;
 }
 .table tbody + tbody {
-  border-top: 0.25rem solid #dee2e6;
+  border-top: 0.25rem solid #c8ffd3;
 }
 
 .table-sm th,
@@ -1741,7 +1742,7 @@ pre code {
 .table-primary,
 .table-primary > th,
 .table-primary > td {
-  background-color: #e3eef3;
+  background-color: #83ca86;
 }
 
 .table-primary thead {
@@ -1752,15 +1753,15 @@ pre code {
 
 .table-primary td,
 .table-primary tbody + tbody {
-  border-color: #cce0e9;
+  border-color: #83ca86;
 }
 
 .table-hover .table-primary:hover {
-  background-color: #d1e3eb;
+  background-color: #83ca86;
 }
 .table-hover .table-primary:hover > td,
 .table-hover .table-primary:hover > th {
-  background-color: #d1e3eb;
+  background-color: #83ca86;
 }
 
 .table-secondary,
