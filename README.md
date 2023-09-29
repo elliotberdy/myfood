@@ -32,13 +32,15 @@ There are three main sections of the website: Input, Analyze, My Data.
 
 ### Shortcomings and Next Steps
 
-As mentioned earlier, currently there is only one communal database. Therefore, if there are multiple users trying out MyFood, one person cannot track only their own food. This is obviously not ideal so the next upgrade I want to make is to create a login system that enables users to have their own database and track their own food. 
+As mentioned earlier, currently there is only one communal database. Therefore, if there are multiple users trying out MyFood, one person cannot track their own personal food alone. This is obviously not ideal so the next upgrade I want to make is to create a login system that enables users to have their own database and track their own data. This is the most crucial improvement to the functioning of the app, and therefore will be my first priority. 
 
-Another imnprovement I would like to make is to add more options for how the user is feeling. This is an easy improvement, although it then requires more data to see interesting trends. 
+Another next step I am interested in is creating a public API for the web app enabling other developers to utilize and build upon what I have created. 
 
-I would also like to try and get more from the data. For example, I want to sort the foods into categories (i.e. fruits, vegetables, etc.) and apply some ML algorithms to look for trends in how certain food categories may make the user feel. I am also interested in looking for trends centered around what time of day the food was eaten. While these improvements are the most exciting to me, the login system is more central to the use of the application and will therefore be my first priority. 
+I would also like to add more options for how the user is feeling. This is an easy improvement, although it will then require more input data to see interesting trends. 
 
-Lastly, the database is currently being uploaded to the git repo and being accessed as part of the file system, but I will start hosting the database separately and access the database from the hosted location.
+I also want to get more from the data. For example, I want to sort the foods into categories (i.e. fruits, vegetables, etc.) and apply some ML algorithms to look for trends in how certain food categories may make the user feel. I am also interested in looking for trends centered around what time of day the food was eaten. 
+
+Lastly, the database is currently being uploaded to the git repo and being accessed as part of the file system, but I plan to start hosting the database separately and access the database from the hosted location.
 
 ### Technologies Used
 
