@@ -6,8 +6,6 @@
 
 // Used this as a starting template ^^
 
-//NEED TO UPDATE CHART 2 WHEN SUBMIT BUTTON IS PUSHED!!!!!
-
     (function($) {
     "use strict"; // Start of use strict
   
@@ -243,6 +241,7 @@
         const data = {
           mood: selectedMood,
           foods: selectedFoods,
+          userid: 2,
         };
 
         // INSERT DATA TO DATABASE IN BACKEND
@@ -290,7 +289,8 @@
       const dataTable = document.getElementById('data-table');
 
       // Fetch initial data from the server and populate the table
-      fetch('/api/data')
+      var userid = 2;
+      fetch(`/api/data/${userid}`)
         .then((response) => response.json())
         .then((data) => {
           populateDataTable(data);
@@ -313,56 +313,8 @@
         });
       }
 
-      // CHART 2 FUNCTION
-      // Function to fetch and update data for the top foods by mood as a bar chart
-      function updateTopFoodsByMoodBarChart(mood) {
-        fetch(`/api/top-foods-by-mood/${mood}`)
-          .then((response) => response.json())
-          .then((data) => {
-            console.log('Top foods by', mood, data);
-            const foods = data.map((entry) => entry.food);
-            const moodCounts = data.map((entry) => entry.moodCount);
-            const foodColors = [
-              '#FF6384',
-              '#36A2EB',
-              '#FFCE56',
-              '#4BC0C0',
-              '#9966FF',
-              '#FF9900',
-            ];
-
-            const dataset = {
-              labels: foods,
-              datasets: [
-                {
-                  data: moodCounts, 
-                  backgroundColor: foodColors,
-                },
-              ],
-            };
-
-            const cacheBuster = Date.now();
-
-            const config = {
-              type: 'doughnut', 
-              data: dataset,
-            };
-            
-            const ctx = document.getElementById('chart-2').getContext('2d');
-
-            if (myChart2) {
-              myChart2.destroy();
-            }
-
-            myChart2 = new Chart(ctx, { ...config, ...{ options: { cache: cacheBuster } } });
-          })
-          .catch((error) => {
-            console.error('Error fetching top foods by mood:', error);
-          });
-      }
-
       // CHART 1 - MOOD COUNT FOR GIVEN FOOD
-      fetch(`/api/mood-counts/${foodName}`)
+      fetch(`/api/mood-counts/${userid}/${foodName}`)
           .then((response) => response.json())
           .then((data) => {
             console.log('Mood counts for', foodName, data);
@@ -407,13 +359,14 @@
       
       // CHART 2 FUNCTION
       // Function to fetch and update data for the top foods by mood as a bar chart
-      function updateTopFoodsByMoodBarChart(mood) {
-        fetch(`/api/top-foods-by-mood/${mood}`)
+      function updateTopFoodsByMoodDoughnutChart(mood) {
+        fetch(`/api/top-foods-by-mood/${userid}/${mood}`)
           .then((response) => response.json())
           .then((data) => {
             console.log('Top foods by', mood, data);
             const foods = data.map((entry) => entry.food);
-            const moodCounts = data.map((entry) => entry.moodCount);
+            const moodCounts = data.map((entry) => entry.moodcount);
+            console.log(foods, moodCounts);
             const foodColors = [
               '#FF6384',
               '#36A2EB',
@@ -452,13 +405,13 @@
             console.error('Error fetching top foods by mood:', error);
           });
       }
-      updateTopFoodsByMoodBarChart('Tired');
+      updateTopFoodsByMoodDoughnutChart('Tired');
 
       // UPDATE CHARTS AND TABLE AFTER SUBMIT BUTTON IS PUSHED
       submitButton.addEventListener('click', () => {
 
         setTimeout(() => {
-          fetch('/api/data')
+          fetch(`/api/data/${userid}`)
             .then((response) => response.json())
             .then((data) => {
               populateDataTable(data);
@@ -469,7 +422,7 @@
         }, 500); 
 
         setTimeout(() => {
-          fetch(`/api/mood-counts/${foodName}`)
+          fetch(`/api/mood-counts/${userid}/${foodName}`)
             .then((response) => response.json())
             .then((data) => {
               console.log('Mood counts for', foodName, data);
@@ -512,7 +465,7 @@
           }, 500); 
 
           setTimeout(() => {
-            updateTopFoodsByMoodBarChart(moodName);
+            updateTopFoodsByMoodDoughnutChart(moodName);
           }, 500); 
       });
 
@@ -679,7 +632,7 @@
           foodName = selectedFood;
 
           setTimeout(() => {
-            fetch(`/api/mood-counts/${foodName}`)
+            fetch(`/api/mood-counts/${userid}/${foodName}`)
               .then((response) => response.json())
               .then((data) => {
                 console.log('Mood counts for', foodName, data);
@@ -760,7 +713,7 @@
           moodInputChart.value = "";
           moodName = selectedMood;
           setTimeout(() => {
-            updateTopFoodsByMoodBarChart(moodName);
+            updateTopFoodsByMoodDoughnutChart(moodName);
             }, 500); 
         }
       });
