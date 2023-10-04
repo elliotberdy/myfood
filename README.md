@@ -8,15 +8,17 @@ Thank you to https://startbootstrap.com/themes/freelancer for the starting templ
 
 ### About MyFood
 
-MyFood is a personal project of mine that can track the food I am eating and how I am feeling after that food. As an active and health conscious person, I have always been interested in what foods are best for me personally, but it is near impossible to mentally keep track of these trends. I therefore developed MyFood to keep track of all of this for me and allow me to see trends in how certain foods make me feel. This is an ongoing project that is not yet done, but feel free to play around with it!
+MyFood is a personal project of mine that can track the food a user is eating and how they are feeling after that food. As an active and health conscious person, I have always been interested in what foods are best for me personally, but it is near impossible to mentally keep track of these trends. I therefore developed MyFood to keep track of all of this for me and allow me to see trends in how certain foods make me feel. This is an ongoing project that is not yet done, but feel free to play around with it!
 
 ### How To Use The Website
 
-There are three main sections of the website: Input, Analyze, My Data. 
+Login Page: Enter a username and password to get started. As long as the username/password combination is unique, you are good to go!
+
+Once you are logged on, there are three main sections of the website: Input, Analyze, My Data. 
 
 1. Input
 
-    In this section you can input what foods you have eaten and how you are feeling. Currently there are six options for how you are feeling. You can enter as many foods as you want per submission, but you can only choose one feeling per submission. If you would like to remove a food that you selected, just click on that food and it will be deleted. Once you have selected what you wish to input, click the submit button and the selected foods and mood will be inputted into the database. Currently there is only one communal database, so don't be surprised if you see previous inputs that are not yours!
+    In this section you can input what foods you have eaten and how you are feeling. Currently there are six options for how you are feeling. You can enter as many foods as you want per submission, but you can only choose one feeling per submission. If you would like to remove a food that you selected, just click on that food and it will be deleted. Once you have selected what you wish to input, click the submit button and the selected foods and mood will be inputted into the database. 
 
 2. Analyze
 
@@ -32,16 +34,12 @@ There are three main sections of the website: Input, Analyze, My Data.
 
 ### Shortcomings and Next Steps
 
-As mentioned earlier, currently there is only one communal database. Therefore, if there are multiple users trying out MyFood, one person cannot track their own personal food alone. This is obviously not ideal so the next upgrade I want to make is to create a login system that enables users to have their own database and track their own data. This is the most crucial improvement to the functioning of the app, and therefore will be my first priority. 
-
-Another next step I am interested in is creating a public API for the web app enabling other developers to utilize and build upon what I have created. 
+I would like to create a public API for MyFood, enabling other developers to utilize and build upon what I have created. 
 
 I would also like to add more options for how the user is feeling. This is an easy improvement, although it will then require more input data to see interesting trends. 
 
-I also want to get more from the data. For example, I want to sort the foods into categories (i.e. fruits, vegetables, etc.) and apply some ML algorithms to look for trends in how certain food categories may make the user feel. I am also interested in looking for trends centered around what time of day the food was eaten. 
-
-Lastly, the database is currently being uploaded to the git repo and being accessed as part of the file system, but I plan to start hosting the database separately and access the database from the hosted location.
+Lastly, I want to get more from the data. For example, I want to sort the foods into categories (i.e. fruits, vegetables, etc.) and apply some ML to look for trends in how certain food categories may make the user feel. I am also interested in looking for trends centered around what time of day the food was eaten. 
 
 ### Technologies Used
 
-MyFood is a fullstack web application that uses HTML, CSS, JavaScript, Bootstrap, Node.js, Express.js, Path, Body Parser, and SQLite. MyFood also uses the Edamam API to populate the dropdowns with a list of foods.
+MyFood is a fullstack web application that uses HTML, CSS, JavaScript, Bootstrap, Node.js, Express.js, PostgresSQL, and Body Parser. MyFood also uses the Edamam API to populate the dropdowns with a list of foods.
