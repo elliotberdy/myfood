@@ -34,20 +34,19 @@
                         <h2 class="fw-bold mb-2 text-uppercase display-5">MyFood</h2>
                         <p class="text-black-50 mb-3">Please enter your (existing or new) <br> username and password!</p>
                       
-                        <!-- Add the <form> element here -->
-                        <form id="login-form">
+                        <form id="login-form" class="needs-validation" novalidate>
                           <div class="form-outline form-black mb-4">
-                            <input type="text" id="typeEmailX" class="form-control form-control-lg" />
-                            <label class="form-label" for="typeEmailX">Username</label>
+                              <input type="text" id="typeEmailX" class="form-control form-control-lg" required aria-describedby="username-feedback" />
+                              <label class="form-label" for="typeEmailX">Username</label>
                           </div>
                       
                           <div class="form-outline form-black mb-5">
-                            <input type="password" id="typePasswordX" class="form-control form-control-lg" />
-                            <label class="form-label" for="typePasswordX">Password</label>
+                              <input type="password" id="typePasswordX" class="form-control form-control-lg" required aria-describedby="password-feedback" />
+                              <label class="form-label" for="typePasswordX">Password</label>
                           </div>
                       
                           <button class="btn btn-secondary btn-lg px-5" id="submit-btn" type="submit">Submit</button>
-                        </form>
+                        </form>                      
                       </div>
         
           
