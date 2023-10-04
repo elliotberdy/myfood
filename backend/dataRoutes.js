@@ -115,10 +115,11 @@ router.get('/api/top-foods-by-mood/:userid/:mood', (req, res) => {
     } else {
       // Check if the result is empty or has data
       if (result.rows.length === 0) {
-        res.status(404).json({ error: 'No data found' }); // Send a 404 Not Found response for no data
+        res.json([]); // Send an empty JSON response when no data is found
+        console.log("No Data Yet");
       } else {
         res.json(result.rows); // Send the JSON data
-      }
+      }      
     }
   });
 });

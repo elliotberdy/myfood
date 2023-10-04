@@ -85,6 +85,11 @@
       let myChart = null;
       let myChart2 = null;
 
+      const username = localStorage.getItem("loggedInUser");
+      const welcomeMessage = document.getElementById("welcome-message");
+      const newMessage = `Hi ${username}! <br><br> Welcome to MyFood! Check out the GitHub link at the bottom of the page for instructions on how to use this website and more info on this project.`;
+      welcomeMessage.innerHTML = newMessage;
+
       // Function to fetch and filter food options from the Edamam API
       function fetchAndFilterFoodOptions(query) {
           const apiKey = '8a73f4dfa676b8394d9e4191cd239244	';
@@ -302,64 +307,116 @@
           console.error('Error fetching initial data:', error);
         });
 
-      function populateDataTable(data) {
-        const tbody = dataTable.querySelector('tbody');
-        tbody.innerHTML = ''; 
-
-        data.reverse().forEach((item) => {
-          const row = document.createElement('tr');
-          row.innerHTML = `
-            <td>${item.food}</td>
-            <td>${item.mood}</td>
-          `;
-          tbody.appendChild(row);
-        });
-      }
+        function populateDataTable(data) {
+          const tbody = dataTable.querySelector('tbody');
+          tbody.innerHTML = '';
+        
+          if (data.length === 0) {
+            const noDataMessageRow = document.createElement('tr');
+            noDataMessageRow.innerHTML = `
+              <td colspan="2">No data available yet</td>
+            `;
+            tbody.appendChild(noDataMessageRow);
+          } else {
+            data.reverse().forEach((item) => {
+              const row = document.createElement('tr');
+              row.innerHTML = `
+                <td>${item.food}</td>
+                <td>${item.mood}</td>
+              `;
+              tbody.appendChild(row);
+            });
+          }
+        }       
+        
+      const plugin = {
+        id: 'emptyDoughnut',
+        afterDraw(chart, args, options) {
+          const {datasets} = chart.data;
+          const {color, width, radiusDecrease} = options;
+          let hasData = false;
+      
+          for (let i = 0; i < datasets.length; i += 1) {
+            const dataset = datasets[i];
+            hasData |= dataset.data.length > 0;
+          }
+      
+          if (!hasData) {
+            const {chartArea: {left, top, right, bottom}, ctx} = chart;
+            const centerX = (left + right) / 2;
+            const centerY = (top + bottom) / 2;
+            const r = Math.min(right - left, bottom - top) / 2;
+      
+            ctx.beginPath();
+            ctx.lineWidth = width || 2;
+            ctx.strokeStyle = color || 'rgba(0, 0, 0, 0.5)';
+            ctx.arc(centerX, centerY, (r - radiusDecrease || 0), 0, 2 * Math.PI);
+            ctx.stroke();
+          }
+        }
+      };
 
       // CHART 1 - MOOD COUNT FOR GIVEN FOOD
       fetch(`/api/mood-counts/${userid}/${foodName}`)
-          .then((response) => response.json())
-          .then((data) => {
-            console.log('Mood counts for', foodName, data);
-            const moods = data.map((entry) => entry.mood);
-            const counts = data.map((entry) => entry.count);
-
-            const dataset = {
-              labels: moods,
-              datasets: [
-                {
-                  data: counts, 
-                  backgroundColor: [
-                    '#FF6384',
-                    '#36A2EB',
-                    '#FFCE56',
-                    '#4BC0C0',
-                    '#9966FF',
-                    '#FF9900',
-                  ],
-                },
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('Mood counts for', foodName, data);
+        const moods = data.map((entry) => entry.mood);
+        const counts = data.map((entry) => entry.count);
+    
+        const dataset = {
+          labels: moods,
+          datasets: [
+            {
+              data: counts, 
+              backgroundColor: [
+                '#FF6384', // Red
+                '#36A2EB', // Blue
+                '#FFCE56', // Yellow
+                '#4BC0C0', // Teal
+                '#9966FF', // Purple
+                '#FF9900', // Orange
               ],
-            };
+            },
+          ],
+        };
+    
+        const cacheBuster = Date.now();
+        
+        const config = {
+          type: 'doughnut', 
+          data: dataset,
+          options: {
+            plugins: {
+              emptyDoughnut: {
+                color: '#006f1f',
+                width: 4,
+                radiusDecrease: 20
+              }
+            },
+            legend: {
+              display: true,
+              position: 'top', // Adjust the legend position as needed
+            },
+            responsive: true,
+            maintainAspectRatio: false,
+            cache: cacheBuster,
+          },
+          plugins: [plugin]
+        };
+        
+        const ctx = document.getElementById('chart').getContext('2d');
+        
+        if (myChart) {
+          myChart.destroy();
+        }
+    
+        myChart = new Chart(ctx, config);
+      })
+      .catch((error) => {
+        console.error('Error fetching mood counts:', error);
+      });
 
-            const cacheBuster = Date.now();
-            
-            const config = {
-              type: 'doughnut',
-              data: dataset,
-            };
-            
-            const ctx = document.getElementById('chart').getContext('2d');
-            
-            if (myChart) {
-              myChart.destroy();
-            }
-
-            myChart = new Chart(ctx, { ...config, ...{ options: { cache: cacheBuster } } });
-          })
-          .catch((error) => {
-            console.error('Error fetching mood counts:', error);
-          });
-      
       // CHART 2 FUNCTION
       // Function to fetch and update data for the top foods by mood as a bar chart
       function updateTopFoodsByMoodDoughnutChart(mood) {
@@ -371,13 +428,14 @@
             const moodCounts = data.map((entry) => entry.moodcount);
             console.log(foods, moodCounts);
             const foodColors = [
-              '#FF6384',
-              '#36A2EB',
-              '#FFCE56',
-              '#4BC0C0',
-              '#9966FF',
-              '#FF9900',
+              '#FF6384', // Red
+              '#36A2EB', // Blue
+              '#FFCE56', // Yellow
+              '#4BC0C0', // Teal
+              '#9966FF', // Purple
+              '#FF9900', // Orange
             ];
+            
 
             const dataset = {
               labels: foods,
@@ -394,6 +452,23 @@
             const config = {
               type: 'doughnut', 
               data: dataset,
+              options: {
+                plugins: {
+                  emptyDoughnut: {
+                    color: '#006f1f',
+                    width: 4,
+                    radiusDecrease: 20
+                  }
+                },
+                legend: {
+                  display: true,
+                  position: 'top', // Adjust the legend position as needed
+                },
+                responsive: true,
+                maintainAspectRatio: false,
+                cache: cacheBuster,
+              },
+              plugins: [plugin]
             };
             
             const ctx = document.getElementById('chart-2').getContext('2d');
@@ -402,7 +477,7 @@
               myChart2.destroy();
             }
 
-            myChart2 = new Chart(ctx, { ...config, ...{ options: { cache: cacheBuster } } });
+            myChart2 = new Chart(ctx, config);
           })
           .catch((error) => {
             console.error('Error fetching top foods by mood:', error);
@@ -437,12 +512,12 @@
                   {
                     data: counts, 
                     backgroundColor: [
-                      '#FF6384',
-                      '#36A2EB',
-                      '#FFCE56',
-                      '#4BC0C0',
-                      '#9966FF',
-                      '#FF9900',
+                      '#FF6384', // Red
+                      '#36A2EB', // Blue
+                      '#FFCE56', // Yellow
+                      '#4BC0C0', // Teal
+                      '#9966FF', // Purple
+                      '#FF9900', // Orange
                     ],
                   },
                 ],
@@ -450,8 +525,25 @@
               const cacheBuster = Date.now();
 
               const config = {
-                type: 'doughnut',
+                type: 'doughnut', 
                 data: dataset,
+                options: {
+                  plugins: {
+                    emptyDoughnut: {
+                      color: '#006f1f',
+                      width: 4,
+                      radiusDecrease: 20
+                    }
+                  },
+                  legend: {
+                    display: true,
+                    position: 'top', // Adjust the legend position as needed
+                  },
+                  responsive: true,
+                  maintainAspectRatio: false,
+                  cache: cacheBuster,
+                },
+                plugins: [plugin]
               };
               
               const ctx = document.getElementById('chart').getContext('2d');
@@ -460,7 +552,7 @@
                 myChart.destroy();
               }
 
-              myChart = new Chart(ctx, { ...config, ...{ options: { cache: cacheBuster } } });
+              myChart = new Chart(ctx, config);
             })
             .catch((error) => {
               console.error('Error fetching mood counts:', error);
@@ -468,6 +560,7 @@
           }, 500); 
 
           setTimeout(() => {
+            console.log(moodName);
             updateTopFoodsByMoodDoughnutChart(moodName);
           }, 500); 
       });
@@ -647,12 +740,12 @@
                     {
                       data: counts, 
                       backgroundColor: [
-                        '#FF6384',
-                        '#36A2EB',
-                        '#FFCE56',
-                        '#4BC0C0',
-                        '#9966FF',
-                        '#FF9900',
+                        '#FF6384', // Red
+                        '#36A2EB', // Blue
+                        '#FFCE56', // Yellow
+                        '#4BC0C0', // Teal
+                        '#9966FF', // Purple
+                        '#FF9900', // Orange
                       ],
                     },
                   ],
@@ -660,8 +753,25 @@
                 const cacheBuster = Date.now();
                 
                 const config = {
-                  type: 'doughnut',
+                  type: 'doughnut', 
                   data: dataset,
+                  options: {
+                    plugins: {
+                      emptyDoughnut: {
+                        color: '#006f1f',
+                        width: 4,
+                        radiusDecrease: 20
+                      }
+                    },
+                    legend: {
+                      display: true,
+                      position: 'top', // Adjust the legend position as needed
+                    },
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cache: cacheBuster,
+                  },
+                  plugins: [plugin]
                 };
                 
                 const ctx = document.getElementById('chart').getContext('2d');
@@ -670,7 +780,7 @@
                   myChart.destroy();
                 }
 
-                myChart = new Chart(ctx, { ...config, ...{ options: { cache: cacheBuster } } });
+                myChart = new Chart(ctx, config);
               })
               .catch((error) => {
                 console.error('Error fetching mood counts:', error);
@@ -716,6 +826,7 @@
           moodInputChart.value = "";
           moodName = selectedMood;
           setTimeout(() => {
+            console.log(moodName);
             updateTopFoodsByMoodDoughnutChart(moodName);
             }, 500); 
         }

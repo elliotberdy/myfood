@@ -33,6 +33,8 @@ document.addEventListener("DOMContentLoaded", function () {
             return; // Don't proceed with the fetch request
         }
 
+        localStorage.setItem("loggedInUser", username);
+
         fetch('/login', {
             method: 'POST',
             headers: {
