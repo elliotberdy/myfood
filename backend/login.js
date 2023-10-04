@@ -13,11 +13,11 @@ app.use(bodyParser.json());
 
 // Configure the database connection
 const pool = new Pool({
-    user: process.env.DB_USER,
-    host: process.env.DB_HOST,
+    user: process.env.DB_USER_USER,
+    host: process.env.DB_USER_HOST,
     database: process.env.DB_USER_NAME,
-    password: process.env.DB_PASSWORD,
-    port: process.env.DB_PORT, 
+    password: process.env.DB_USER_PASSWORD,
+    port: process.env.DB_USER_PORT, 
   });
 
 
