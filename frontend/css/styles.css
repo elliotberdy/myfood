@@ -503,6 +503,17 @@ mark,
   color: #6c757d;
 }
 
+.gradient-custom {
+  /* fallback for old browsers */
+  background: #83ca86;
+  
+  /* Chrome 10-25, Safari 5.1-6 */
+  /* background: -webkit-linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1)); */
+  
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  /* background: linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1)) */
+  }
+
 .selectedFoodsContainer {
   text-align: center;
 }
@@ -1689,7 +1700,6 @@ pre code {
 .table td {
   padding: 0.75rem;
   vertical-align: top;
-  top: 0;
   /* border-top: 0.15rem solid #c8ffd3; */
 }
 .table thead th {

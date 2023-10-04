@@ -220,9 +220,12 @@
 
       // Get references to the selected foods container and submit button
       const submitButton = document.querySelector("#foodForm button[type='submit']");
-
-      // Initialize an array to store the selected foods
       const selectedFoods = [];
+
+      // Parse the URL to get query parameters
+      const urlParams = new URLSearchParams(window.location.search); 
+      const userid = urlParams.get('userid');
+      console.log('User ID:', userid);
 
       // Event listener for the form submission
       foodForm.addEventListener("submit", function (event) {
@@ -241,7 +244,7 @@
         const data = {
           mood: selectedMood,
           foods: selectedFoods,
-          userid: 2,
+          userid: userid,
         };
 
         // INSERT DATA TO DATABASE IN BACKEND
@@ -289,7 +292,7 @@
       const dataTable = document.getElementById('data-table');
 
       // Fetch initial data from the server and populate the table
-      var userid = 2;
+
       fetch(`/api/data/${userid}`)
         .then((response) => response.json())
         .then((data) => {
