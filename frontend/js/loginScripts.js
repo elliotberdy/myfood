@@ -1,13 +1,20 @@
 // loginScipts.js
 
 document.addEventListener("DOMContentLoaded", function () {
-    const submitButton = document.getElementById("submit-btn");
-    submitButton.addEventListener("click", function (event) {
-        event.preventDefault(); // Prevent the default form submission
+    const loginForm = document.getElementById("login-form");
+  
+    loginForm.addEventListener("submit", function (event) {
+      event.preventDefault(); // Prevent the default form submission
+  
+      // Get the username and password from the input fields
+      const username = document.getElementById("typeEmailX").value;
+      const password = document.getElementById("typePasswordX").value;
 
-        // Get the username and password from the input fields
-        const username = document.getElementById("typeEmailX").value;
-        const password = document.getElementById("typePasswordX").value;
+      // Validate that both fields are not empty
+        if (!username || !password) {
+            alert("Please enter both a username and a password.");
+            return; // Prevent further execution
+        }
 
         fetch('/login', {
             method: 'POST',
