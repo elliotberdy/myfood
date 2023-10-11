@@ -399,7 +399,7 @@
               position: 'top', // Adjust the legend position as needed
             },
             responsive: true,
-            maintainAspectRatio: false,
+            //maintainAspectRatio: false,
             cache: cacheBuster,
           },
           plugins: [plugin]
@@ -465,7 +465,7 @@
                   position: 'top', // Adjust the legend position as needed
                 },
                 responsive: true,
-                maintainAspectRatio: false,
+                //maintainAspectRatio: false,
                 cache: cacheBuster,
               },
               plugins: [plugin]
@@ -540,7 +540,7 @@
                     position: 'top', // Adjust the legend position as needed
                   },
                   responsive: true,
-                  maintainAspectRatio: false,
+                  //maintainAspectRatio: false,
                   cache: cacheBuster,
                 },
                 plugins: [plugin]
@@ -768,7 +768,7 @@
                       position: 'top', // Adjust the legend position as needed
                     },
                     responsive: true,
-                    maintainAspectRatio: false,
+                    //maintainAspectRatio: false,
                     cache: cacheBuster,
                   },
                   plugins: [plugin]
