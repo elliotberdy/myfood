@@ -2,7 +2,7 @@
 
 ## Elliot Berdy 
 
-Project Website: [http://www.elliotberdy.com ](https://elliotberdy.onrender.com/)
+Project Website: [http://www.elliotberdy.onrender.com/ ](https://elliotberdy.onrender.com/)
 
 Thank you to https://startbootstrap.com/themes/freelancer for the starting template :)
 
