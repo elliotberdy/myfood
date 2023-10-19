@@ -4,8 +4,6 @@
 
 Project Website: [http://www.elliotberdy.onrender.com/ ](https://elliotberdy.onrender.com/)
 
-Thank you to https://startbootstrap.com/themes/freelancer for the starting template :)
-
 ### About MyFood
 
 MyFood is a personal project of mine that can track the food a user is eating and how they are feeling after that food. As an active and health conscious person, I have always been interested in what foods are best for me personally, but it is near impossible to mentally keep track of these trends. I therefore developed MyFood to keep track of all of this for me and allow me to see trends in how certain foods make me feel. This is an ongoing project that is not yet done, but feel free to play around with it!
@@ -43,3 +41,7 @@ Lastly, I want to get more from the data. For example, I want to sort the foods 
 ### Technologies Used
 
 MyFood is a fullstack web application that uses HTML, CSS, JavaScript, Bootstrap, Node.js, Express.js, PostgresSQL, and Body Parser. MyFood also uses the Edamam API to populate the dropdowns with a list of foods.
+
+### Sources
+
+Thank you to https://startbootstrap.com/themes/freelancer for the starting template :)
