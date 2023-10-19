@@ -1,11 +1,11 @@
 // dataRoutes.js
 
-require('dotenv').config();
+require("dotenv").config();
 const express = require("express");
 const router = express.Router();
 module.exports = router;
 
-const { Pool } = require('pg');
+const { Pool } = require("pg");
 
 // Configure the database connection
 const pool = new Pool({
@@ -17,37 +17,38 @@ const pool = new Pool({
 });
 
 // Define a route to handle inserting multiple rows of data
-router.post('/api/data', (req, res) => {
+router.post("/api/data", (req, res) => {
   const { mood, foods, userid } = req.body;
 
   // Start a transaction
-  pool.query('BEGIN', (error) => {
+  pool.query("BEGIN", (error) => {
     if (error) {
-      console.error('Error starting transaction:', error);
-      return res.status(500).json({ error: 'Internal Server Error' });
+      console.error("Error starting transaction:", error);
+      return res.status(500).json({ error: "Internal Server Error" });
     }
 
     // Iterate through the list of foods and insert them one by one
     foods.forEach((food) => {
-      const sql = 'INSERT INTO my_food_user_data (userid, food, mood) VALUES ($1, $2, $3)';
+      const sql =
+        "INSERT INTO my_food_user_data (userid, food, mood) VALUES ($1, $2, $3)";
       const values = [userid, food, mood];
 
       pool.query(sql, values, (err) => {
         if (err) {
           // If an error occurs, roll back the transaction
-          pool.query('ROLLBACK', (rollbackError) => {
+          pool.query("ROLLBACK", (rollbackError) => {
             if (rollbackError) {
-              console.error('Error rolling back transaction:', rollbackError);
+              console.error("Error rolling back transaction:", rollbackError);
             }
-            console.error('Error inserting data:', err.message);
-            res.status(500).json({ error: 'Internal Server Error' });
+            console.error("Error inserting data:", err.message);
+            res.status(500).json({ error: "Internal Server Error" });
           });
         } else {
           // If successful, commit the transaction
-          pool.query('COMMIT', (commitError) => {
+          pool.query("COMMIT", (commitError) => {
             if (commitError) {
-              console.error('Error committing transaction:', commitError);
-              return res.status(500).json({ error: 'Internal Server Error' });
+              console.error("Error committing transaction:", commitError);
+              return res.status(500).json({ error: "Internal Server Error" });
             }
             console.log(`Inserted row of data: ${food}, ${mood}`);
             // Continue inserting the next food item
@@ -57,44 +58,51 @@ router.post('/api/data', (req, res) => {
     });
 
     // Send a response once all foods have been inserted (or an error occurred)
-    res.json({ message: 'Data received and processed successfully' });
+    res.json({ message: "Data received and processed successfully" });
   });
 });
 
 // Define a route to get data for a specific userid
-router.get('/api/data/:userid', (req, res) => {
+router.get("/api/data/:userid", (req, res) => {
   const userid = req.params.userid;
 
   // Perform a SELECT query to retrieve rows for the specified userid
-  pool.query('SELECT * FROM my_food_user_data WHERE userid = $1', [userid], (err, result) => {
-    if (err) {
-      console.error('Error querying data:', err.message);
-      res.status(500).json({ error: 'Internal Server Error' });
-    } else {
-      res.json(result.rows);
+  pool.query(
+    "SELECT * FROM my_food_user_data WHERE userid = $1",
+    [userid],
+    (err, result) => {
+      if (err) {
+        console.error("Error querying data:", err.message);
+        res.status(500).json({ error: "Internal Server Error" });
+      } else {
+        res.json(result.rows);
+      }
     }
-  });
+  );
 });
 
 // Define a route to get mood counts for a specific food and userid
-router.get('/api/mood-counts/:userid/:food', (req, res) => {
+router.get("/api/mood-counts/:userid/:food", (req, res) => {
   const userid = req.params.userid;
   const food = req.params.food;
 
   // Perform a SELECT query to retrieve mood counts for the specified food and userid
-  pool.query('SELECT mood, COUNT(*) AS count FROM my_food_user_data WHERE userid = $1 AND food = $2 GROUP BY mood', [userid, food], (err, result) => {
-    if (err) {
-      console.error('Error querying data:', err.message);
-      res.status(500).json({ error: 'Internal Server Error' });
-    } else {
-      res.json(result.rows);
+  pool.query(
+    "SELECT mood, COUNT(*) AS count FROM my_food_user_data WHERE userid = $1 AND food = $2 GROUP BY mood",
+    [userid, food],
+    (err, result) => {
+      if (err) {
+        console.error("Error querying data:", err.message);
+        res.status(500).json({ error: "Internal Server Error" });
+      } else {
+        res.json(result.rows);
+      }
     }
-  });
+  );
 });
 
-
 // Define a route to get the top 5 foods by a specific mood and userid
-router.get('/api/top-foods-by-mood/:userid/:mood', (req, res) => {
+router.get("/api/top-foods-by-mood/:userid/:mood", (req, res) => {
   const userid = req.params.userid;
   const mood = req.params.mood;
 
@@ -110,8 +118,8 @@ router.get('/api/top-foods-by-mood/:userid/:mood', (req, res) => {
 
   pool.query(sql, [userid, mood], (err, result) => {
     if (err) {
-      console.error('Error querying data:', err.message);
-      res.status(500).json({ error: 'Internal Server Error' });
+      console.error("Error querying data:", err.message);
+      res.status(500).json({ error: "Internal Server Error" });
     } else {
       // Check if the result is empty or has data
       if (result.rows.length === 0) {
@@ -119,9 +127,7 @@ router.get('/api/top-foods-by-mood/:userid/:mood', (req, res) => {
         console.log("No Data Yet");
       } else {
         res.json(result.rows); // Send the JSON data
-      }      
+      }
     }
   });
 });
-
-
