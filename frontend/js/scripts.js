@@ -101,7 +101,13 @@
 
     const username = localStorage.getItem("loggedInUser");
     const welcomeMessage = document.getElementById("welcome-message");
-    const newMessage = `Hi ${username}! <br><br> Welcome to MyFood! Check out the GitHub link at the bottom of the page for instructions on how to use this website and more info on this project.`;
+    const newMessage = `Hi ${username}! <br><br> Welcome to MyFood! Track what foods you are eating and how you are feeling after eating those foods. Then find trends in how certain foods make you feel! 
+    <br>There are three main sections to MyFood: <br>
+    1. Input - Input the foods that you ate and how you feel
+    2. Analyze - Find trends in how foods make you feel
+    3. My Data - View your input history
+    
+    Stay healthy!`;
     welcomeMessage.innerHTML = newMessage;
 
     // Function to fetch and filter food options from the Edamam API
