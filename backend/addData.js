@@ -1,13 +1,26 @@
-const sqlite3 = require("sqlite3").verbose();
+require("dotenv").config();
+const { Pool } = require("pg");
 
-// Open the database
-const db = new sqlite3.Database("mydatabase.db");
+// Configure the database connection
+const pool = new Pool({
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database: process.env.DB_NAME,
+  password: process.env.DB_PASSWORD,
+  port: process.env.DB_PORT,
+});
 
 // Function to insert data for a specific food and mood
-function insertData(food, mood) {
-  const stmt = db.prepare("INSERT INTO mytable (food, mood) VALUES (?, ?)");
-  stmt.run(food, mood);
-  stmt.finalize();
+function insertData(userid, food, mood) {
+  const query =
+    "INSERT INTO my_food_user_data (userid, food, mood) VALUES ($1, $2, $3)";
+  pool.query(query, [userid, food, mood], (err) => {
+    if (err) {
+      console.error("Error inserting data:", err.message);
+    } else {
+      console.log(`Inserted row of data: ${food}, ${mood}`);
+    }
+  });
 }
 
 function getRandomQuantity(min, max) {
@@ -20,7 +33,7 @@ function insertRandomData(entries) {
     const { food, mood, minQuantity, maxQuantity } = entry;
     const quantity = getRandomQuantity(minQuantity, maxQuantity);
     for (let i = 0; i < quantity; i++) {
-      insertData(food, mood);
+      insertData(1, food, mood);
     }
   }
 }
@@ -47,5 +60,3 @@ const dataToInsert = [
 ];
 
 insertRandomData(dataToInsert);
-
-db.close();
