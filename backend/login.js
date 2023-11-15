@@ -92,7 +92,7 @@ function createNewUser(username, password, callback) {
               console.error("Error hashing password:", hashError);
               callback(hashError, null);
             } else {
-              // Store the hashed password in your database
+              // Store the hashed password in database
               console.log("Hashed Password:", hashedPassword);
               pool.query(
                 "INSERT INTO users (userid, username, password) VALUES ($1, $2, $3) RETURNING userid",
