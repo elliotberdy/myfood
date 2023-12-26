@@ -41,7 +41,3 @@ Lastly, I want to get more from the data. For example, I want to sort the foods 
 ### Technologies Used
 
 MyFood is a fullstack web application that uses HTML, CSS, JavaScript, Bootstrap, Node.js, Express.js, PostgresSQL, and Body Parser. MyFood also uses the Edamam API to populate the dropdowns with a list of foods.
-
-### Sources
-
-Thank you to https://startbootstrap.com/themes/freelancer for the starting template :)
